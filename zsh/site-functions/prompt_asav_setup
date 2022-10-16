@@ -1,0 +1,64 @@
+# Modified version of Zsh's adam1 theme.
+# 
+# The Z Shell is copyright (c) 1992-2017 Paul Falstad, Richard Coleman,
+# Zoltán Hidvégi, Andrew Main, Peter Stephenson, Sven Wischnowsky, and
+# others.  All rights reserved.  Individual authors, whether or not
+# specifically named, retain copyright in all changes; in what follows, they
+# are referred to as `the Zsh Development Group'.  This is for convenience
+# only and this body has no legal status.  The Z shell is distributed under
+# the following licence; any provisions made in individual files take
+# precedence.
+
+# Permission is hereby granted, without written agreement and without
+# licence or royalty fees, to use, copy, modify, and distribute this
+# software and to distribute modified versions of this software for any
+# purpose, provided that the above copyright notice and the following
+# two paragraphs appear in all copies of this software.
+#
+# In no event shall the Zsh Development Group be liable to any party for
+# direct, indirect, special, incidental, or consequential damages arising out
+# of the use of this software and its documentation, even if the Zsh
+# Development Group have been advised of the possibility of such damage.
+#
+# The Zsh Development Group specifically disclaim any warranties, including,
+# but not limited to, the implied warranties of merchantability and fitness
+# for a particular purpose.  The software provided hereunder is on an "as is"
+# basis, and the Zsh Development Group have no obligation to provide
+# maintenance, support, updates, enhancements, or modifications.
+
+prompt_asav_help () {
+  cat "Tweaked adam1"
+}
+
+prompt_asav_setup () {
+  setopt localoptions nowarncreateglobal
+
+  base_prompt="%F{blue}%*%(?..%F{red} %?) %f"
+  post_prompt="%b%f%k"
+
+  setopt localoptions extendedglob
+  base_prompt_no_color="${base_prompt//(%K{[^\\\}]#\}|%k)/}"
+  post_prompt_no_color="${post_prompt//(%K{[^\\\}]#\}|%k)/}"
+  add-zsh-hook precmd prompt_asav_precmd
+}
+
+prompt_asav_precmd () {
+  setopt localoptions noxtrace nowarncreateglobal
+  local base_prompt_expanded_no_color base_prompt_etc
+  local prompt_length space_left
+
+  base_prompt_expanded_no_color=$(print -P "$base_prompt_no_color")
+  base_prompt_etc=$(print -P "$base_prompt%(4~|...|)%3~")
+  prompt_length=${#base_prompt_etc}
+  if [[ $prompt_length -lt 40 ]]; then
+    path_prompt="%B%F{cyan}%(4~|...|)%3~%F{white}"
+  else
+    space_left=$(( $COLUMNS - $#base_prompt_expanded_no_color - 2 ))
+    path_prompt="%B%F{green}%${space_left}<...<%~$prompt_newline%F{white}"
+  fi
+  PS1="$base_prompt$path_prompt %# $post_prompt"
+  PS2="$base_prompt$path_prompt %_> $post_prompt"
+  PS3="$base_prompt$path_prompt ?# $post_prompt"
+}
+
+prompt_asav_setup "$@"
