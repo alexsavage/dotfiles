@@ -1,0 +1,101 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 2,
+  "final_space": true,
+  "console_title_template": "{{.UserName}}@{{.HostName}}:{{ .PWD }}",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "iterm",
+          "interactive": true,
+          "style": "plain",
+          "foreground": "#80ffea",
+          "template": "{{ .PromptMark }}"
+        },
+        {
+          "type": "path",
+          "style": "plain",
+          "foreground": "#0973C0",
+          "template": "{{ .Path }} ",
+          "properties": {
+            "style": "full"
+          }
+        },
+        {
+          "type": "root",
+          "style": "plain",
+          "foreground": "#CECE04",
+          "template": "\uf0e7 "
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "#00aa00",
+          "template": "%"
+        }
+      ]
+    },
+    {
+      "type": "rprompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "status",
+          "style": "powerline",
+          "template": "{{ if ne .Code 0 }} \uf071 {{ reason .Code }} {{ end }}",
+          "foreground": "#fff",
+          "background": "#900",
+          "powerline_symbol": "\ue0b2",
+          "invert_powerline": true
+        },
+        {
+          "type": "python",
+          "style": "powerline",
+          "foreground": "#fff",
+          "background": "#060",
+          "powerline_symbol": "\ue0b2",
+          "template": " \ue235 {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} "
+        },
+        {
+          "type": "dotnet",
+          "style": "powerline",
+          "foreground": "#fff",
+          "background": "#060",
+          "template": " \udb82\udeae {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+          "powerline_symbol": "\ue0b2"
+        },
+        {
+          "type": "git",
+          "style": "powerline",
+          "foreground": "#fff",
+          "background": "#009",
+          "powerline_symbol": "\ue0b2",
+          "invert_powerline": true,
+          "template": " {{ .HEAD }} "
+        },
+        {
+          "type": "executiontime",
+          "style": "powerline",
+          "foreground": "#fff",
+          "background": "#009",
+          "powerline_symbol": "\ue0b2",
+          "invert_powerline": true,
+          "template": " \udb81\udd1f {{ .FormattedMs }} ",
+          "properties": {
+            "threshold": 500,
+            "style": "austin",
+            "always_enabled": true
+          }
+        }
+      ]
+    }
+  ],
+  "transient_prompt": {
+    "foreground": "#333",
+    "background": "#000",
+    "template": "{{ .PWD }} %% "
+  }
+}
